@@ -1,0 +1,58 @@
+{
+  "schema": "semantic-router-counterfactual-audit/0.1",
+  "baseline": {
+    "status": "PASS",
+    "expected_decision": "premium_complex",
+    "actual_decision": "premium_complex",
+    "expected_model": "Qwen/Qwen2.5-14B-Instruct",
+    "actual_model": "Qwen/Qwen2.5-14B-Instruct"
+  },
+  "official_counterfactual": {
+    "status": "FLIP",
+    "margin": 1,
+    "unit": "signal_edit",
+    "baseline_decision": "premium_complex",
+    "counterfactual_decision": "premium_default",
+    "mutation": "remove keyword:complex_analysis"
+  },
+  "gray_boundary": {
+    "status": "CRITICAL",
+    "margin": 0.050000000000000044,
+    "key": "safety:gray_risk",
+    "value": 0.55,
+    "threshold": 0.5,
+    "baseline_route": "guarded_route",
+    "counterfactual_route": "normal_route"
+  },
+  "order": {
+    "status": "FAIL",
+    "route_flip": true,
+    "state_divergent": true,
+    "A_then_B_state": {
+      "risk": 0.4
+    },
+    "B_then_A_state": {
+      "risk": 0.6000000000000001
+    },
+    "A_then_B_route": "normal_route",
+    "B_then_A_route": "guarded_route"
+  },
+  "grouping": {
+    "status": "FAIL",
+    "route_flip": true,
+    "associator_residual": 0.04999999999999993,
+    "left": {
+      "expr": "(A★B)★C",
+      "A_star_B": 0.05,
+      "terminal_state": 0.55,
+      "route": "normal_route"
+    },
+    "right": {
+      "expr": "A★(B★C)",
+      "B_star_C": 0.55,
+      "terminal_state": 0.6,
+      "route": "guarded_route"
+    }
+  },
+  "evidence_note": "Synthetic order/grouping failures are stress-test counterexamples, not evidence of an upstream Semantic Router defect."
+}
